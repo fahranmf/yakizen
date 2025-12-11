@@ -8,9 +8,16 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+                <div class="px-6 py-3 text-gray-900">
                     {{ __("You're logged in!") }}
                 </div>
+                
+                {{-- Info Meja --}}
+                <p class="px-6 py-3 text-gray-900">
+                    No. Meja kamu :
+                    <span class="font-semibold">{{ session('selected_table') }}</span>
+                </p>
+
             </div>
         </div>
     </div>

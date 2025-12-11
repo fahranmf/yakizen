@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TableController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\CartController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,7 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+
     // Tidak boleh memilih meja kalau sudah punya
     Route::middleware(['table.locked'])->group(function () {
         Route::get('/pilih-meja', [TableController::class, 'index'])->name('tables.index');
@@ -27,6 +29,12 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['table.selected'])->group(function () {
         Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
         Route::post('/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
+        // Cart
+        Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+        Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+        Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+        Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+
     });
 });
 
