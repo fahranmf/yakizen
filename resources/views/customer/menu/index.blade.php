@@ -17,22 +17,41 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
 
             {{-- ===== MENU (KIRI) ===== --}}
-            <div class="lg:col-span-2 bg-white px-6 rounded-2xl">
-                @foreach ($categories as $category)
-                    {{-- Category Title --}}
-                    <h2 class="text-2xl font-extrabold mb-6 mt-10 
-                               bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-                        {{ $category->name }}
-                    </h2>
+            <div x-data="{ activeCategory: 'all' }" class="lg:col-span-2 bg-white px-6 pb-10 rounded-2xl">
+                <div class="flex flex-wrap gap-3 mt-6 mb-10">
+                    <button @click="activeCategory = 'all'" :class="activeCategory === 'all' 
+            ? 'bg-orange-500 text-white' 
+            : 'bg-slate-100 text-slate-700'" class="px-5 py-2 rounded-full font-semibold transition">
+                        Semua
+                    </button>
 
-                    {{-- Menu Grid --}}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-7 ">
-                        @foreach ($category->menus as $menu)
+                    @foreach ($categories as $category)
+                        <button @click="activeCategory = '{{ $category->id }}'" :class="activeCategory === '{{ $category->id }}' 
+                                ? 'bg-orange-500 text-white' 
+                                : 'bg-slate-100 text-slate-700'" class="px-5 py-2 rounded-full font-semibold transition">
+                            {{ $category->name }}
+                        </button>
+                    @endforeach
+                </div>
+
+                @foreach ($categories as $category)
+                    <template x-if="activeCategory === 'all' || activeCategory == '{{ $category->id }}'">
+
+                        <div>
+                            {{-- Category Title --}}
+                            <h2 class="text-2xl font-extrabold mb-6 mt-10 
+                                           bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                                {{ $category->name }}
+                            </h2>
+
+                            {{-- Menu Grid --}}
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-7 ">
+                                @foreach ($category->menus as $menu)
 
                                     <div class="bg-white shadow-md rounded-2xl overflow-hidden 
-                            border border-transparent
-                            hover:border-orange-500 hover:shadow-xl hover:-translate-y-1
-                            transition-all duration-300">
+                                                    border border-transparent
+                                                    hover:border-orange-500 hover:shadow-xl hover:-translate-y-1
+                                                    transition-all duration-300">
 
 
 
@@ -62,11 +81,12 @@
                                                 @csrf
                                                 <input type="hidden" name="menu_id" value="{{ $menu->id }}">
 
-                                                <button class="w-full py-3 rounded-xl text-white font-semibold tracking-wide 
-                                                                               bg-gradient-to-br from-green-600 to-emerald-700
-                                                                               shadow-md hover:shadow-xl
-                                                                               hover:-translate-y-1 active:translate-y-0
-                                                                               transition-all duration-200">
+                                                <button
+                                                    class="w-full py-3 rounded-xl text-white font-semibold tracking-wide 
+                                                                                                       bg-gradient-to-br from-green-600 to-emerald-700
+                                                                                                       shadow-md hover:shadow-xl
+                                                                                                       hover:-translate-y-1 active:translate-y-0
+                                                                                                       transition-all duration-200">
                                                     + Tambah ke Keranjang
                                                 </button>
                                             </form>
@@ -74,9 +94,10 @@
                                         </div>
                                     </div>
 
-                        @endforeach
-                    </div>
-
+                                @endforeach
+                            </div>
+                        </div>
+                    </template>
                 @endforeach
 
             </div>
@@ -84,7 +105,7 @@
 
             {{-- ===== KERANJANG (KANAN) ===== --}}
             <div x-data="cartHandler({{ json_encode(session('cart', [])) }})"
-                class="cart bg-white rounded-3xl p-10 shadow-[0_20px_40px_rgba(0,0,0,0.1)] sticky top-[100px] h-fit ">
+                class="cart bg-white rounded-3xl p-10 shadow-[0_20px_40px_rgba(0,0,0,0.1)] sticky top-5 h-fit ">
 
                 {{-- HEADER --}}
                 <div class="cart-header text-center mb-6">
