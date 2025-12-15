@@ -18,7 +18,7 @@
         {{-- EMPTY STATE --}}
         @if(empty($cart))
             <div class="text-gray-500 text-center py-10">
-                Keranjang masih kosong 
+                Keranjang masih kosong
             </div>
         @else
 
@@ -50,33 +50,15 @@
                             </div>
                         </div>
 
-                        {{-- ACTIONS --}}
+                        {{-- QTY INFO (READ ONLY) --}}
                         <div class="flex items-center gap-3">
-
-                            {{-- UPDATE QTY --}}
-                            <form action="{{ route('cart.update') }}" method="POST" class="flex items-center gap-2">
-                                @csrf
-                                <input type="hidden" name="menu_id" value="{{ $item['id'] }}">
-
-                                <input type="number" name="qty" min="1" value="{{ $item['qty'] }}"
-                                    class="w-16 border border-gray-300 rounded-lg p-1 text-center focus:ring-0 focus:border-gray-400">
-
-                                <button class="px-3 py-1.5 rounded-lg bg-gray-800 text-white text-sm hover:bg-black transition">
-                                    Update
-                                </button>
-                            </form>
-
-                            {{-- REMOVE --}}
-                            <form action="{{ route('cart.remove') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="menu_id" value="{{ $item['id'] }}">
-
-                                <button
-                                    class="px-3 py-1.5 rounded-lg bg-rose-500 text-white text-sm hover:bg-rose-600 transition">
-                                    Hapus
-                                </button>
-                            </form>
+                            <span
+                                class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-800 font-semibold">
+                                {{ $item['qty'] }}
+                            </span>
                         </div>
+
+
 
                     </div>
                 @endforeach

@@ -46,28 +46,44 @@ class CartController extends Controller
     {
         $request->validate([
             'menu_id' => 'required',
-            'qty' => 'required|integer|min:1',
+            'change' => 'required|integer', // +1 / -1
         ]);
 
         $cart = session('cart', []);
+        $id = $request->menu_id;
 
-        if (isset($cart[$request->menu_id])) {
-            $cart[$request->menu_id]['qty'] = $request->qty;
+        if (isset($cart[$id])) {
+            $cart[$id]['qty'] += $request->change;
+
+            // kalau qty <= 0 → hapus
+            if ($cart[$id]['qty'] <= 0) {
+                unset($cart[$id]);
+            }
+
             session(['cart' => $cart]);
         }
 
-        return back()->with('success', 'Keranjang diperbarui.');
+        return response()->json([
+            'cart' => $cart,
+            'total' => collect($cart)->sum(fn($i) => $i['price'] * $i['qty']),
+        ]);
     }
+
 
     public function remove(Request $request)
     {
+        $request->validate([
+            'menu_id' => 'required',
+        ]);
+
         $cart = session('cart', []);
+        unset($cart[$request->menu_id]);
 
-        if (isset($cart[$request->menu_id])) {
-            unset($cart[$request->menu_id]);
-            session(['cart' => $cart]);
-        }
+        session(['cart' => $cart]);
 
-        return back()->with('success', 'Item dihapus dari keranjang.');
+        return response()->json([
+            'cart' => $cart,
+            'total' => collect($cart)->sum(fn($i) => $i['price'] * $i['qty']),
+        ]);
     }
 }
