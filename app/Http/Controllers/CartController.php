@@ -39,7 +39,12 @@ class CartController extends Controller
 
         session(['cart' => $cart]);
 
-        return back()->with('success', "{$menu->name} ditambahkan ke keranjang!");
+        return response()->json([
+            'cart' => $cart,
+            'total' => collect($cart)->sum(fn($i) => $i['price'] * $i['qty']),
+            'message' => "{$menu->name} ditambahkan ke keranjang!"
+        ]);
+
     }
 
     public function update(Request $request)

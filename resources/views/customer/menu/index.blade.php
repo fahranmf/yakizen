@@ -27,8 +27,9 @@
 
                     @foreach ($categories as $category)
                         <button @click="activeCategory = '{{ $category->id }}'" :class="activeCategory === '{{ $category->id }}' 
-                                ? 'bg-orange-500 text-white' 
-                                : 'bg-slate-100 text-slate-700'" class="px-5 py-2 rounded-full font-semibold transition">
+                                            ? 'bg-orange-500 text-white' 
+                                            : 'bg-slate-100 text-slate-700'"
+                            class="px-5 py-2 rounded-full font-semibold transition">
                             {{ $category->name }}
                         </button>
                     @endforeach
@@ -39,8 +40,9 @@
 
                         <div>
                             {{-- Category Title --}}
-                            <h2 class="text-2xl font-extrabold mb-6 mt-10 
-                                           bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                            <h2
+                                class="text-2xl font-extrabold mb-6 mt-10 
+                                                       bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
                                 {{ $category->name }}
                             </h2>
 
@@ -48,51 +50,50 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-7 ">
                                 @foreach ($category->menus as $menu)
 
-                                    <div class="bg-white shadow-md rounded-2xl overflow-hidden 
-                                                    border border-transparent
-                                                    hover:border-orange-500 hover:shadow-xl hover:-translate-y-1
-                                                    transition-all duration-300">
+                                                                <div
+                                                                    class="bg-white shadow-md rounded-2xl overflow-hidden 
+                                                                                                                                                border border-transparent
+                                                                                                                                                hover:border-orange-500 hover:shadow-xl hover:-translate-y-1
+                                                                                                                                                transition-all duration-300">
 
 
 
-                                        {{-- Image --}}
-                                        @if ($menu->image)
-                                            <div class="h-44 w-full overflow-hidden">
-                                                <img src="{{ asset('storage/' . $menu->image) }}"
-                                                    class="w-full h-full object-cover hover:scale-105 transition duration-500">
-                                            </div>
-                                        @endif
+                                                                    {{-- Image --}}
+                                                                    @if ($menu->image)
+                                                                        <div class="h-44 w-full overflow-hidden">
+                                                                            <img src="{{ asset('storage/' . $menu->image) }}"
+                                                                                class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                                                                        </div>
+                                                                    @endif
 
-                                        {{-- Info --}}
-                                        <div class="p-5">
+                                                                    {{-- Info --}}
+                                                                    <div class="p-5">
 
-                                            <h3 class="font-semibold text-lg mb-1">{{ $menu->name }}</h3>
+                                                                        <h3 class="font-semibold text-lg mb-1">{{ $menu->name }}</h3>
 
-                                            <p class="text-gray-500 text-sm mb-3 line-clamp-2">
-                                                {{ $menu->description }}
-                                            </p>
+                                                                        <p class="text-gray-500 text-sm mb-3 line-clamp-2">
+                                                                            {{ $menu->description }}
+                                                                        </p>
 
-                                            <p class="font-extrabold text-lg mb-5 text-gray-800">
-                                                Rp {{ number_format($menu->price, 0, ',', '.') }}
-                                            </p>
+                                                                        <p class="font-extrabold text-lg mb-5 text-gray-800">
+                                                                            Rp {{ number_format($menu->price, 0, ',', '.') }}
+                                                                        </p>
 
-                                            {{-- Button --}}
-                                            <form action="{{ route('cart.add') }}" method="POST">
-                                                @csrf
-                                                <input type="hidden" name="menu_id" value="{{ $menu->id }}">
+                                                                        {{-- Button --}}
+                                                                        <button @click.prevent="
+                                        window.dispatchEvent(
+                                            new CustomEvent('add-to-cart', { detail: {{ $menu->id }} })
+                                        )
+                                    " class="w-full py-3 rounded-xl text-white font-semibold
+                                                                           bg-gradient-to-br from-green-600 to-emerald-700
+                                                                           shadow-md hover:shadow-xl transition">
+                                                                            + Tambah ke Keranjang
+                                                                        </button>
 
-                                                <button
-                                                    class="w-full py-3 rounded-xl text-white font-semibold tracking-wide 
-                                                                                                       bg-gradient-to-br from-green-600 to-emerald-700
-                                                                                                       shadow-md hover:shadow-xl
-                                                                                                       hover:-translate-y-1 active:translate-y-0
-                                                                                                       transition-all duration-200">
-                                                    + Tambah ke Keranjang
-                                                </button>
-                                            </form>
 
-                                        </div>
-                                    </div>
+
+                                                                    </div>
+                                                                </div>
 
                                 @endforeach
                             </div>
@@ -188,8 +189,30 @@
             total: Object.values(initialCart)
                 .reduce((t, i) => t + i.price * i.qty, 0),
 
+            init() {
+                window.addEventListener('add-to-cart', (e) => {
+                    this.addToCart(e.detail)
+                })
+            },
+
             format(n) {
                 return new Intl.NumberFormat('id-ID').format(n)
+            },
+
+            addToCart(id) {
+                fetch("{{ route('cart.add') }}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ menu_id: id })
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        this.cart = data.cart
+                        this.total = data.total
+                    })
             },
 
             updateQty(id, change) {
