@@ -814,14 +814,12 @@
                     <a href="#menu" class="dropdown-toggle">Menu</a>
                     <ul class="dropdown-menu">
                         <li><a href="#menu">Menu Best Seller</a></li>
-                        <li><a href="#menu">Semua Menu</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle">Layanan</a>
                     <ul class="dropdown-menu">
-                        <li><a href="feedback.html">Kritik &amp; Saran</a></li>
-                        <li><a href="contact.html">Kontak</a></li>
+                        <li><a href="#kritik-saran">Kritik &amp; Saran</a></li>
                         <li><a href="#about">Tentang Kami</a></li>
                     </ul>
                 </li>
@@ -989,7 +987,7 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section class="testimonials">
+    <section class="testimonials" id="kritik-saran">
         <h2 class="section-title">Apa Kata Pelanggan Kami</h2>
         <div class="testimonial-container">
             <div class="testimonial-card">

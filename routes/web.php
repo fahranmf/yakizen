@@ -7,6 +7,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,6 +31,7 @@ Route::middleware('auth')->group(function () {
 
     // Hanya boleh akses menu setelah pilih meja
     Route::middleware(['table.selected'])->group(function () {
+        Route::get('/home', [HomeController::class, 'index'])->name('customer.home');;
         Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
         Route::get('/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
         Route::post('/checkout', [OrderController::class, 'store'])->name('order.store');

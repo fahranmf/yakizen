@@ -10,7 +10,7 @@ class TableController extends Controller
     public function index()
     {
         if (session()->has('selected_table')) {
-            return redirect()->route('dashboard')->with('info', 'Kamu sudah memilih meja.');
+            return redirect()->route('customer.home')->with('info', 'Kamu sudah memilih meja.');
         }
 
         $tables = Table::orderBy('id')->get();
@@ -31,6 +31,6 @@ class TableController extends Controller
 
         session(['selected_table' => $table->id]);
 
-        return redirect()->route('dashboard')->with('success', 'Meja berhasil dipilih. Selamat memesan!');
+        return redirect()->route('customer.home')->with('success', 'Meja berhasil dipilih. Selamat memesan!');
     }
 }

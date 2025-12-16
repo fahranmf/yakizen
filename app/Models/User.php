@@ -54,4 +54,10 @@ class User extends Authenticatable
         return in_array($this->role, ['admin', 'staff']);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(\App\Models\Order::class);
+    }
+
+
 }
