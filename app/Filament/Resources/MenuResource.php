@@ -19,7 +19,7 @@ class MenuResource extends Resource
     protected static ?string $model = Menu::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
-    protected static ?string $navigationGroup = 'Menu Management';
+    protected static ?string $navigationGroup = 'Manajemen Menu';
     protected static ?string $navigationLabel = 'Menus';
 
     public static function form(Form $form): Form

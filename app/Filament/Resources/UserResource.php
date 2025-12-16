@@ -18,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
+    protected static ?string $navigationGroup = 'Manajemen Pengunjung';
 
     protected static ?string $navigationLabel = 'Customers';
     protected static ?string $navigationIcon = 'heroicon-o-users';

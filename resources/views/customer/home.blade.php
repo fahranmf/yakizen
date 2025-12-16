@@ -52,17 +52,29 @@
 
         <!-- Kritik & Saran -->
         <section class="feedback-section" id="kritik-saran">
+            @if (session('success_kritik'))
+                <div class="feedback-success">
+                    {{ session('success_kritik') }}
+                </div>
+            @endif
+
             <div class="container">
                 <div class="feedback-header">
                     <div class="feedback-icon">💬</div>
                     <div class="feedback-title">Kritik & Saran</div>
                 </div>
-                <form class="feedback-form" onsubmit="submitFeedback(event)">
-                    <input type="text" class="feedback-input"
-                        placeholder="Bagikan pengalamanmu atau saran untuk Yakizen..." maxlength="200">
+
+                <form class="feedback-form" action="{{ route('kritik.store') }}" method="POST">
+                    @csrf
+
+                    <input type="text" name="pesan" class="feedback-input"
+                        placeholder="Bagikan pengalamanmu atau saran untuk Yakizen..." maxlength="200" required>
+
                     <button type="submit" class="feedback-btn">Kirim</button>
                 </form>
+            </div>
         </section>
+
         </div>
     </main>
 
@@ -141,6 +153,13 @@
     a {
         text-decoration: none;
         color: inherit;
+    }
+
+    .section-title {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 24px;
+        color: var(--yakizen-dark);
     }
 
     .btn {
@@ -399,6 +418,39 @@
     .feedback-btn:hover {
         transform: translateY(-1px);
         box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3);
+    }
+
+    /* Success Alert Kritik & Saran */
+    .feedback-success {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+        color: #166534;
+        padding: 14px 20px;
+        border-radius: 14px;
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 24px;
+        box-shadow: 0 6px 20px rgba(34, 197, 94, 0.15);
+        animation: slideDown 0.4s ease;
+    }
+
+    .feedback-success-icon {
+        font-size: 20px;
+    }
+
+    /* Animasi masuk */
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     /* Footer */

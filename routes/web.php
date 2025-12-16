@@ -31,10 +31,16 @@ Route::middleware('auth')->group(function () {
 
     // Hanya boleh akses menu setelah pilih meja
     Route::middleware(['table.selected'])->group(function () {
-        Route::get('/home', [HomeController::class, 'index'])->name('customer.home');;
+        Route::get('/home', [HomeController::class, 'index'])->name('customer.home');
+        Route::post('/kritik', [HomeController::class, 'storeKritik'])
+            ->middleware('auth')
+            ->name('kritik.store');
+
+        // Menu
         Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
         Route::get('/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
         Route::post('/checkout', [OrderController::class, 'store'])->name('order.store');
+
         // Cart
         Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
         Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
