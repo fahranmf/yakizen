@@ -14,10 +14,6 @@ Route::get('/', function () {
 });
 
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -36,6 +32,9 @@ Route::middleware('auth')->group(function () {
             ->middleware('auth')
             ->name('kritik.store');
 
+        Route::get('/pesanan-saya', [DashboardController::class, 'index'])
+            ->middleware(['auth', 'verified'])
+            ->name('dashboard');
         // Menu
         Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
         Route::get('/checkout', [OrderController::class, 'checkout'])->name('order.checkout');

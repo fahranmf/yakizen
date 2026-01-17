@@ -143,7 +143,6 @@
     }
 
     .container {
-        max-width: 1280px;
         /* max-w-7xl */
         margin: 0 auto;
         padding: 0 20px;
@@ -213,14 +212,13 @@
 
     /* Hero */
     .hero {
-        max-width: 1200px;
         margin: 0 auto;
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        border-radius: 24px;
         padding: 48px 40px;
         color: white;
         position: relative;
         overflow: hidden;
+        text-align: center;
     }
 
     .hero::before {
@@ -253,13 +251,13 @@
         font-size: 18px;
         opacity: 0.95;
         margin-bottom: 32px;
-        max-width: 500px;
     }
 
     .hero-actions {
         display: flex;
         gap: 16px;
         flex-wrap: wrap;
+        justify-content: center;
     }
 
     .hero-badge {
@@ -275,7 +273,6 @@
 
     /* How It Works */
     .how-works {
-        max-width: 1200px;
         margin: 0 auto;
         background: white;
         border-radius: 20px;
@@ -349,7 +346,6 @@
 
     /* Kritik & Saran Section */
     .feedback-section {
-        max-width: 1200px;
         margin: 0 auto;
         background: white;
         border-radius: 20px;

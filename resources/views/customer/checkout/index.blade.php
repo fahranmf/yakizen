@@ -1,63 +1,64 @@
 <x-app-layout>
-    <div class="max-w-7xl px-7 mx-auto mt-10">
+    <div class="min-h-screen flex items-center justify-center bg-[#F5F5F5] py-10">
+        <div class="w-full max-w-xl bg-white shadow-md rounded-xl border border-gray-200">
 
-        <div class="mb-6">
-            {{-- HEADER --}}
-            <x-slot name="header">
-                <h1 class="text-2xl font-bold tracking-tight text-gray-800">
-                    Checkout
+            {{-- Header --}}
+            <div class="px-8 pt-8 pb-4 text-center border-b border-gray-200">
+                <h1 class="text-2xl font-bold text-gray-900">
+                    Pesanan Diterima
                 </h1>
-            </x-slot>
-
-            <p class="mt-2 text-gray-600 bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded">
-                Pembayaran dilakukan <strong class="font-semibold">CASH di kasir</strong>.
-            </p>
-        </div>
-
-        <div class="bg-white shadow-lg rounded-xl p-6 border border-gray-100">
+                <p class="mt-2 text-l text-gray-600 leading-relaxed max-w-md mx-auto">
+                    Pesanan Anda sedang diproses oleh tim dapur. Silakan
+                    selesaikan pembayaran di kasir untuk mengkonfirmasi
+                    pesanan dine-in Anda.
+                </p>
+            </div>
 
             {{-- Item List --}}
-            @foreach($cart as $item)
-                <div class="flex justify-between py-3 border-b border-gray-200">
-                    <span class="font-medium text-gray-700">
-                        {{ $item['name'] }}
-                        <span class="text-gray-500">× {{ $item['qty'] }}</span>
-                    </span>
-
-                    <span class="font-semibold text-gray-800">
-                        Rp {{ number_format($item['price'] * $item['qty'], 0, ',', '.') }}
-                    </span>
-                </div>
-            @endforeach
+            <div class="px-8 py-4">
+                @foreach($cart as $item)
+                    <div class="flex justify-between py-2 text-sm border-b border-gray-100 last:border-b-0">
+                        <span class="text-gray-700">
+                            {{ $item['name'] }}
+                            <span class="text-gray-500">(x{{ $item['qty'] }})</span>
+                        </span>
+                        <span class="text-gray-800">
+                            Rp {{ number_format($item['price'] * $item['qty'], 0, ',', '.') }}
+                        </span>
+                    </div>
+                @endforeach
+            </div>
 
             {{-- Total --}}
-            <div class="flex justify-between font-bold text-xl mt-6 text-gray-900">
-                <span>Total</span>
-                <span>
-                    Rp {{
-    number_format(
-        collect($cart)->sum(fn($i) => $i['price'] * $i['qty']),
-        0,
-        ',',
-        '.'
-    )
-                    }}
-                </span>
+            <div class="px-8 py-3 bg-gray-50 border-t border-b border-gray-200 text-sm">
+                <div class="flex justify-between font-semibold text-gray-900">
+                    <span>Total Bayar</span>
+                    <span>
+                        Rp {{
+                            number_format(
+                                collect($cart)->sum(fn($i) => $i['price'] * $i['qty']),
+                                0,
+                                ',',
+                                '.'
+                            )
+                        }}
+                    </span>
+                </div>
             </div>
 
             {{-- Button --}}
-            <form action="{{ route('order.store') }}" method="POST" class="mt-8">
-                @csrf
-
-                <button class="w-full py-4 text-lg font-semibold text-white rounded-lg
-           bg-gray-800 hover:bg-gray-700 active:bg-gray-800 
-           transition-all shadow-md hover:shadow-lg">
-                    Konfirmasi Pesanan
-                </button>
-
-            </form>
+            <div class="px-8 py-6">
+                <form action="{{ route('order.store') }}" method="POST">
+                    @csrf
+                    <button
+                        class="w-full py-3 text-sm font-semibold text-white rounded
+                               bg-gray-500 hover:bg-gray-600 active:bg-gray-700
+                               transition-all shadow-sm">
+                        Ke Kasir Bayar Tunai
+                    </button>
+                </form>
+            </div>
 
         </div>
-
     </div>
 </x-app-layout>

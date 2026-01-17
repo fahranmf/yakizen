@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto px-7 mt-6 pb-7">
+    <div class="mx-auto px-7 mt-6 pb-7">
 
         {{-- HEADER --}}
         <x-slot name="header">
