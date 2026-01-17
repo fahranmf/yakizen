@@ -11,7 +11,7 @@ class MenuController extends Controller
     public function index(Request $request)
     {
         // pastikan user sudah pilih meja (harusnya sudah dilindungi middleware)
-        if (! session()->has('selected_table')) {
+        if (!session()->has('selected_table')) {
             return redirect()->route('tables.index')
                 ->with('error', 'Silakan pilih meja terlebih dahulu.');
         }
@@ -24,4 +24,11 @@ class MenuController extends Controller
 
         return view('customer.menu.index', compact('categories', 'menus'));
     }
+
+    public function welcome()
+    {
+        $menus = Menu::select('id', 'name', 'image')->get();
+        return view('welcome', compact('menus'));
+    }
+
 }

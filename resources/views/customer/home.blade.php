@@ -28,13 +28,13 @@
                 <div class="how-steps">
                     <div class="step">
                         <div class="step-number">1</div>
-                        <div class="step-title">Pilih Menu</div>
-                        <p>Pilih menu favorit dan tambahkan ke keranjang</p>
+                        <div class="step-title">Konfirmasi Dine-in</div>
+                        <p>Pilih meja dan konfirmasi pesanan dine-in</p>
                     </div>
                     <div class="step">
                         <div class="step-number">2</div>
-                        <div class="step-title">Konfirmasi Dine-in</div>
-                        <p>Pilih meja dan konfirmasi pesanan dine-in</p>
+                        <div class="step-title">Pilih Menu</div>
+                        <p>Pilih menu favorit dan tambahkan ke keranjang</p>
                     </div>
                     <div class="step">
                         <div class="step-number">3</div>
